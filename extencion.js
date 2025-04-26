@@ -14,15 +14,21 @@ document.getElementById('clickMe').addEventListener('click', async () => {
   try {
     const response = await fetch(url);
     const data = await response.json();
-
+  
     console.log('Respuesta completa:', data);
-
+  
     if (data && data.organic_results && data.organic_results.length > 0) {
-      const result = data.organic_results[0];
-      document.getElementById('mensaje').innerHTML = `
-        <p><strong>Resultado:</strong> ${result.title}</p>
-        <p><a href="${result.link}" target="_blank">Ver más</a></p>
-      `;
+      const resultadosHTML = data.organic_results
+        .filter(result => result && result.title && result.link) // solo los que tienen título y link
+        .map(result => `
+          <div style="margin-bottom: 10px;">
+            <p><strong>${result.title}</strong></p>
+            <p><a href="${result.link}" target="_blank">Ver más</a></p>
+          </div>
+        `)
+        .join('');
+  
+      document.getElementById('mensaje').innerHTML = resultadosHTML || 'No se encontraron resultados válidos.';
     } else {
       document.getElementById('mensaje').textContent = 'No se encontraron resultados.';
     }
@@ -30,4 +36,5 @@ document.getElementById('clickMe').addEventListener('click', async () => {
     console.error('Error:', error);
     document.getElementById('mensaje').textContent = `Error al realizar la búsqueda: ${error.message}`;
   }
+  
 });
