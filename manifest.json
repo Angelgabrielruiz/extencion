@@ -1,0 +1,11 @@
+{
+  "manifest_version": 3,
+  "name": "Mi Extensión de Búsqueda",
+  "version": "1.0",
+  "description": "Realiza búsquedas con SerpAPI desde una extensión.",
+  "permissions": ["storage", "activeTab", "scripting"],
+  "host_permissions": ["https://serpapi.com/*"],
+  "action": {
+    "default_popup": "index.html"
+  }
+}
